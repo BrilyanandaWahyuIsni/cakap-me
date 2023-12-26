@@ -1,25 +1,29 @@
 'use client';
 import React, { useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
-import CakapStatus from '../../../../components/cakapStatus';
 import { MdPerson } from 'react-icons/md';
 import { IoMdSettings } from 'react-icons/io';
-import ReplyCard from '@/components/replyCard';
-import { ContextValue, MainMenu } from '@/components/hook/context';
+import ReplyCard from '@/components/sendCakap';
+import { ContextValue, MAINMENU } from '@/components/hook/context';
+import StatusRandom from '@/components/statusUpdate/getStatus';
+import { useRouter } from 'next/navigation';
+
 
 export default function HomePage() {
-  enum enumAktiftMenu {
-    GLOBAL,
-    FRIEND,
-  }
 
-  const { _handleMenuAktive } = useContext(ContextValue);
+  const router = useRouter()
 
-  useEffect(() => {
-    _handleMenuAktive(MainMenu.HOME);
-  }, [_handleMenuAktive]);
+  enum enumAktiftMenu { GLOBAL, FRIEND }
 
   const [menuAktif, setMenuAktif] = useState<number>(enumAktiftMenu.GLOBAL);
+  const { _handleMenuAktive } = useContext(ContextValue);
+  const [urlStatusWithID, setUrlStatusWithID] = useState<string>("")
+
+
+  useEffect(() => {
+    _handleMenuAktive(MAINMENU.HOME);
+  }, [_handleMenuAktive]);
+
 
   const styleSelectMenuActive: string = 'border-b-4 border-blue-600 font-bold';
   const menu_class = 'flex items-center gap-3 text-2xl';
@@ -27,6 +31,13 @@ export default function HomePage() {
   function _handleChangeAktifMenu(value: number) {
     setMenuAktif(value);
   }
+
+
+  function _handleIDCakap(v: string) {
+    setUrlStatusWithID(v)
+  }
+
+
 
   return (
     <div className="relative max-h-screen w-full">
@@ -59,18 +70,9 @@ export default function HomePage() {
           </button>
         </div>
       </div>
+      <ReplyCard getNewIDCakap={_handleIDCakap} />
       {/* create new cakap */}
-      <div>
-        {/* newStatus */}
-        <ReplyCard />
-        <CakapStatus />
-        <CakapStatus />
-        <CakapStatus />
-        <CakapStatus />
-        <CakapStatus />
-        <CakapStatus />
-        <CakapStatus />
-      </div>
+      <StatusRandom urlLink={`/status`} idCakap={urlStatusWithID} />
     </div>
   );
 }

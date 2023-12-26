@@ -1,3 +1,4 @@
+import ScrollDivHome from '@/components/scrollDivHome';
 import Link from 'next/link';
 import React from 'react';
 import { FaArrowLeft } from "react-icons/fa";
@@ -6,12 +7,11 @@ import { GoHeart } from 'react-icons/go';
 import { HiDotsVertical } from 'react-icons/hi';
 import { HiMiniArrowPathRoundedSquare } from 'react-icons/hi2';
 import { IoShareSocialOutline } from 'react-icons/io5';
-import CakapStatus from '../../../../components/cakapStatus';
 
 export default function CommentPage() {
     return (
-        <div className='w-full min-h-screen'>
 
+        <div className='w-full min-h-screen'>
             <Link href="/home" className=' justify-start h-16 gap-3 items-center flex flex-row w-full sticky top-0 bg-base-300 px-5 z-10'>
                 <FaArrowLeft size={20} />
                 <span className='text-xl'>Postingan</span>
@@ -59,10 +59,10 @@ export default function CommentPage() {
 
             </div>
             <div>
+                {/* <CakapStatus />
                 <CakapStatus />
                 <CakapStatus />
-                <CakapStatus />
-                <CakapStatus />
+                <CakapStatus /> */}
             </div>
 
         </div>

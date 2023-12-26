@@ -6,9 +6,10 @@ import React, { ReactNode } from 'react';
 export default function ExploreLayout({ children }: { children: ReactNode }) {
 
     return (
-        <div className='w-full flex flex-row'>
-            <div className='lg:w-3/5 w-full min-h-screen'>
+        <div className='w-full flex flex-row min-h-screen'>
+            <div className='lg:w-3/5 w-full min-h-screen '>
                 {children}
+
             </div>
             <div className='lg:w-2/5 lg:flex lg:flex-col hidden sticky top-0 border-l-2 border-base-200 px-4'>
                 {/* pencarian */}

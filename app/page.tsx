@@ -1,23 +1,25 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
+import instance from './api/axios';
+import { ContextValue } from '@/components/hook/context';
+import useSWR from 'swr';
+
 
 export default function Home() {
   const router = useRouter();
+  const { themeMode } = useContext(ContextValue)
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      router.push('signin');
-    }, 1000);
 
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [router]);
+  instance.get('/user/auth')
+    .then((e) => router.replace('/home'))
+    .catch(e => router.replace('/signin'))
 
   return (
-    <main className="flex h-screen w-full items-center justify-center">
-      <span className="loading loading-bars loading-lg"></span>
-    </main>
+    <body data-theme={themeMode} >
+      <main className="flex h-screen w-full items-center justify-center">
+        <span className="loading loading-bars loading-lg"></span>
+      </main>
+    </body>
   );
 }

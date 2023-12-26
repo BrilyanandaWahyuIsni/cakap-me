@@ -9,11 +9,9 @@ export const metadata = {};
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html data-theme="retro" lang="en">
+    <html lang="en">
       <SetContextProvider>
-        <body data-theme="retro" className={inter.className}>
-          {children}
-        </body>
+        {children}
       </SetContextProvider>
     </html>
   );

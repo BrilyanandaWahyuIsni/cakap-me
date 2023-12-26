@@ -1,7 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
 
-export function CardName() {
+type CardNameProps = {
+    username: string;
+    alias: string;
+    bio: string;
+}
+
+export function CardName(props: CardNameProps) {
     return (
         <div className='flex w-full md:p-3 p-1 gap-3 bg-base-200 rounded-lg'>
             <div className='md:w-[10%] w-[15%]'>
@@ -10,12 +16,12 @@ export function CardName() {
             <div className='md:w-[90%] w-[85%] flex flex-col gap-2'>
                 <div className='flex justify-between items-center'>
                     <div>
-                        <h1 className='text-xl font-extrabold'>Name Akun</h1>
-                        <p className='text-sm'>@username</p>
+                        <h1 className='text-xl font-extrabold'>{props.alias}</h1>
+                        <p className='text-sm'>@{props.username}</p>
                     </div>
                     <button className={`px-4 rounded-full border-2 py-0 h-9 hover:text-error hover:border-error hover:after:content-["Stop"] after:content-["Mengikuti"]`}></button>
                 </div>
-                <div className='w-full text-justify text-base'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere odio quasi reprehenderit illum omnis dolor veniam architecto modi obcaecati iure! Expedita sint nulla quas facilis ullam minus illum quisquam repudiandae.</div>
+                <div className='w-full text-justify text-base'>{props.bio}</div>
             </div>
         </div>
     );

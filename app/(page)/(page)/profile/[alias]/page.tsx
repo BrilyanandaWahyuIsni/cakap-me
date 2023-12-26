@@ -9,10 +9,11 @@ import { TbLink } from "react-icons/tb";
 import { MdLocationPin } from "react-icons/md";
 import CakapStatus from "../../../../../components/cakapStatus";
 import instance from "@/app/api/axios";
-import { changeTimeID } from "@/app/script/timerCheck/timerCheck";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
-import { ContextValue, MainMenu } from "@/components/hook/context";
+import { ContextValue, MAINMENU } from "@/components/hook/context";
+import StatusSelfRandom from "@/components/statusUpdate/getStatusSelf";
+import { changeTimeID } from "@/components/script/timerCheck/timerCheck";
 
 const fetch = async (url: string) => await instance.get(url).then((r) => r.data);
 
@@ -22,14 +23,12 @@ export default function ProfileAliasPage({
   params: { alias: string };
 }) {
 
-  const { isLoading, data, error } = useSWR(`/user/${params.alias}`, fetch);
+  const { isLoading, data } = useSWR(`/user/${params.alias}`, fetch);
 
 
 
   const { _handleMenuAktive } = useContext(ContextValue);
 
-
-  const router = useRouter()
 
   enum enumAktiftMenu {
     POSTINGAN,
@@ -37,6 +36,9 @@ export default function ProfileAliasPage({
     MEDIA,
     SUKA,
   }
+
+
+
 
   const [aktifMenu, setAktifMenu] = useState<number>(enumAktiftMenu.POSTINGAN);
 
@@ -46,7 +48,13 @@ export default function ProfileAliasPage({
     setAktifMenu(value);
   }
 
+  function _handleScroll(v: boolean) {
+    console.log(v)
+  }
 
+  useEffect(() => {
+    _handleMenuAktive(MAINMENU.PROFILE);
+  }, [_handleMenuAktive])
 
   if (isLoading) {
     return (
@@ -55,9 +63,6 @@ export default function ProfileAliasPage({
       </div>
     );
   } else if (data) {
-    console.log(data)
-    _handleMenuAktive(MainMenu.PROFILE);
-
     return (
       <div className="w-full">
         <Link
@@ -201,11 +206,22 @@ export default function ProfileAliasPage({
             </button>
           </div>
           <div className="w-full">
-            <CakapStatus />
-            <CakapStatus />
-            <CakapStatus />
-            <CakapStatus />
-            <CakapStatus />
+            {
+              aktifMenu === enumAktiftMenu.POSTINGAN &&
+              <StatusSelfRandom usersId={data.data.id} url="/status/my" />
+            }
+            {
+              aktifMenu === enumAktiftMenu.BALASAN &&
+              <StatusSelfRandom usersId={data.data.id} url="/status/my" />
+            }
+            {
+              aktifMenu === enumAktiftMenu.MEDIA &&
+              <StatusSelfRandom usersId={data.data.id} url={`/status/my/media`} />
+            }
+            {
+              aktifMenu === enumAktiftMenu.SUKA &&
+              <StatusSelfRandom usersId={data.data.id} url="/status/my" />
+            }
           </div>
         </div>
       </div>
