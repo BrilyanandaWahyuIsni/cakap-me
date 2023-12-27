@@ -17,6 +17,13 @@ import { changeTimeID } from "@/components/script/timerCheck/timerCheck";
 
 const fetch = async (url: string) => await instance.get(url).then((r) => r.data);
 
+enum enumAktiftMenu {
+  POSTINGAN,
+  BALASAN,
+  MEDIA,
+  SUKA,
+}
+
 export default function ProfileAliasPage({
   params,
 }: {
@@ -25,20 +32,7 @@ export default function ProfileAliasPage({
 
   const { isLoading, data } = useSWR(`/user/${params.alias}`, fetch);
 
-
-
   const { _handleMenuAktive } = useContext(ContextValue);
-
-
-  enum enumAktiftMenu {
-    POSTINGAN,
-    BALASAN,
-    MEDIA,
-    SUKA,
-  }
-
-
-
 
   const [aktifMenu, setAktifMenu] = useState<number>(enumAktiftMenu.POSTINGAN);
 
@@ -208,19 +202,19 @@ export default function ProfileAliasPage({
           <div className="w-full">
             {
               aktifMenu === enumAktiftMenu.POSTINGAN &&
-              <StatusSelfRandom usersId={data.data.id} url="/status/my" />
+              <StatusSelfRandom usersId={data.data.id} url="/status/profile" />
             }
             {
               aktifMenu === enumAktiftMenu.BALASAN &&
-              <StatusSelfRandom usersId={data.data.id} url="/status/my" />
+              <StatusSelfRandom usersId={data.data.id} url="/status/profile" />
             }
             {
               aktifMenu === enumAktiftMenu.MEDIA &&
-              <StatusSelfRandom usersId={data.data.id} url={`/status/my/media`} />
+              <StatusSelfRandom usersId={data.data.id} url={`/status/profile/media`} />
             }
             {
               aktifMenu === enumAktiftMenu.SUKA &&
-              <StatusSelfRandom usersId={data.data.id} url="/status/my" />
+              <StatusSelfRandom usersId={data.data.id} url="/status/profile" />
             }
           </div>
         </div>

@@ -8,19 +8,20 @@ import { AxiosResponse } from 'axios';
 type ArrayDataProps = {
   readonly id: string;
   readonly usersId: string;
-  status_text: string,
+  status_text: string;
   status_img: Array<string> | [];
-  count_comment: number,
-  count_like: number,
-  readonly created_at: string,
-  readonly updated_at: string,
+  count_comment: number;
+  count_like: number;
+  readonly created_at: string;
+  readonly updated_at: string;
   users: {
-    username: string,
-    alias: string
-  },
+    username: string;
+    alias: string;
+    readonly badge: string;
+  };
   likeStatus?: [{
-    id: string
-  }] | []
+    id: string;
+  }] | [];
 }
 
 interface CakapStatusProps extends SWRResponse {
@@ -75,12 +76,11 @@ export default function StatusRandom({ urlLink, idCakap }: { urlLink: string, id
 
   useEffect(() => {
 
-    if (data && firstTake) {
+    if (data) {
       setLaseData(prev => ([...prev, ...data?.data!]))
       if (data.data.at(-1)) {
         setLastId(data.data.at(-1)?.id!)
       }
-      setFirstTake(false)
     }
 
   }, [data, firstTake])
@@ -92,9 +92,6 @@ export default function StatusRandom({ urlLink, idCakap }: { urlLink: string, id
       </div>
     )
   } else if (data) {
-    // data.data.map(e => {
-    //   console.log()
-    // })
     return (
       <InfiniteScroll
         dataLength={laseData.length + 1}
@@ -121,6 +118,7 @@ export default function StatusRandom({ urlLink, idCakap }: { urlLink: string, id
               updated_at={e.updated_at}
               username={e.users.username}
               alias={e.users.alias}
+              badge={e.users.badge}
               like_status={e.likeStatus?.length! > 0 ? true : false}
               key={e.id}
             />

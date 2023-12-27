@@ -16,8 +16,9 @@ type ArrayDataProps = {
     readonly created_at: string,
     readonly updated_at: string,
     users: {
-        username: string,
-        alias: string
+        readonly username: string,
+        alias: string,
+        readonly badge: string
     },
     likeStatus?: [{
         id: string
@@ -114,6 +115,7 @@ export function SearchingPostingPopuler({ urlLink }: { urlLink: string }) {
                                 username={e.users.username}
                                 alias={e.users.alias}
                                 like_status={e.likeStatus?.length! > 0 ? true : false}
+                                badge={e.users.badge}
                                 key={e.id}
                             />
                         ))

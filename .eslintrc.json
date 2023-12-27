@@ -1,3 +1,55 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "semi": [
+      "error",
+      "always"
+    ],
+    "max-lines": [
+      "error",
+      120
+    ],
+    "no-multi-spaces": "error",
+    "key-spacing": [
+      "error",
+      {
+        "align": "value"
+      }
+    ],
+    "padding-line-between-statements": [
+      "error",
+      {
+        "blankLine": "always",
+        "prev": [
+          "const",
+          "let",
+          "var"
+        ],
+        "next": "*"
+      },
+      {
+        "blankLine": "any",
+        "prev": [
+          "const",
+          "let",
+          "var"
+        ],
+        "next": [
+          "const",
+          "let",
+          "var"
+        ]
+      }
+    ],
+    "no-multiple-empty-lines": [
+      "error",
+      {
+        "max": 2,
+        "maxBOF": 1
+      }
+    ]
+  }
 }

@@ -6,18 +6,21 @@ import useSWR, { SWRResponse } from 'swr';
 import { AxiosResponse } from 'axios';
 
 type CakapStatusProps = {
-  id: string;
-  usersId: string;
+  readonly id: string;
+  readonly usersId: string;
   status_text: string,
-  status_img: string[] | [];
+  status_img: Array<string> | [];
   count_comment: number,
   count_like: number,
-  created_at: string,
-  updated_at: string,
+  readonly created_at: string,
+  readonly updated_at: string,
   users: {
     username: string,
     alias: string
-  }
+  },
+  likeStatus?: [{
+    id: string
+  }] | []
 }
 
 interface CustomSwrResponse extends SWRResponse {
@@ -84,37 +87,44 @@ export default function StatusSelfRandom({ usersId, url }: { usersId: string, ur
     )
   } else {
     if (laseData) {
-      return (
-        <InfiniteScroll
-          dataLength={data.data.length + 1}
-          next={loadMore}
-          hasMore={hasMore}
-          loader={<div>loading...</div>}
-          endMessage={
-            <div className='w-full text-center p-3 text-2xl text-black dark:text-white'>postingan berakhir</div>
-          }
-          scrollableTarget="ini_id_scroll"
-          className='flex flex-col gap-3 '
-        >
-          {
-            laseData.map((e: CakapStatusProps) => (
-              <CakapStatus
-                id={e.id}
-                usersId={e.usersId}
-                count_comment={e.count_comment}
-                count_like={e.count_like}
-                status_img={e.status_img}
-                created_at={e.created_at}
-                status_text={e.status_text}
-                updated_at={e.updated_at}
-                username={e.users.username}
-                alias={e.users.alias}
-                key={e.id}
-              />
-            ))
-          }
-        </InfiniteScroll>
-      )
+      if (laseData.length > 0) {
+        return (
+          <InfiniteScroll
+            dataLength={data.data.length + 1}
+            next={loadMore}
+            hasMore={hasMore}
+            loader={<div>loading...</div>}
+            endMessage={
+              <div className='w-full text-center p-3 text-2xl text-black dark:text-white'>postingan berakhir</div>
+            }
+            scrollableTarget="ini_id_scroll"
+            className='flex flex-col gap-3 '
+          >
+            {
+              laseData.map((e: CakapStatusProps) => (
+                <CakapStatus
+                  id={e.id}
+                  usersId={e.usersId}
+                  count_comment={e.count_comment}
+                  count_like={e.count_like}
+                  status_img={e.status_img}
+                  created_at={e.created_at}
+                  status_text={e.status_text}
+                  updated_at={e.updated_at}
+                  username={e.users.username}
+                  alias={e.users.alias}
+                  key={e.id}
+                  like_status={e.likeStatus?.length! > 0 ? true : false}
+                />
+              ))
+            }
+          </InfiniteScroll>
+        )
+      } else {
+        return (
+          <div className='w-full p-3 text-center'>Postingan tidak ditemukan!</div>
+        )
+      }
     }
   }
 

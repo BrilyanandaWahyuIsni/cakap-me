@@ -19,6 +19,7 @@ type CakapStatusProps = {
     status_text: string,
     status_img: string[] | [];
     count_comment: number,
+    badge: string;
     count_like: number,
     created_at: string,
     updated_at: string,
@@ -32,7 +33,6 @@ export default function CakapStatus(props: CakapStatusProps) {
     const [isLiked, setIsLiked] = useState<boolean>(props.like_status)
     const [isLoadingLike, setIsLoadingLiked] = useState<boolean>(false)
     const [countLike, setCountLike] = useState<number>(props.count_like)
-
 
 
     // function liked button
@@ -79,7 +79,9 @@ export default function CakapStatus(props: CakapStatusProps) {
                         @{props.username}
                     </Link>
                     <div className='flex whitespace-nowrap items-center gap-1'>
-                        <MdVerified color='blue' className='text-blue-900' />
+                        {props.badge !== "none"
+                            ? <MdVerified color='blue' className='text-blue-900' />
+                            : null}
                         <div className='whitespace-nowrap'>{changeTimeIDShort(props.created_at)}</div>
                         <HiDotsVertical className='' />
                     </div>
@@ -102,7 +104,7 @@ export default function CakapStatus(props: CakapStatusProps) {
 
                 {/* balasan */}
                 <div className='flex justify-between'>
-                    <Link href="/comment" className='flex items-center gap-1'>
+                    <Link href={`/comment/${props.id}`} className='flex items-center gap-1'>
                         <FiMessageCircle /> {props.count_comment}
                     </Link>
                     <button onClick={_handleLikedButton} type='button' className='flex items-center gap-1'>
